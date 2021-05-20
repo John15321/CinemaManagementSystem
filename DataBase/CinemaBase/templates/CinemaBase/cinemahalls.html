@@ -1,0 +1,39 @@
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body"><a class="btn btn-primary  btn-sm btn-block" href="{% url 'addcinemahall' %}">Add Cinema Hall</a></div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+                            <th></th>
+							<th>ID</th>
+							<th>Name</th>
+                            <th>Projector</th>
+                            <th>Sound System</th>
+                            <th>Update</th>
+                            <th>Remove</th>
+						</tr>
+                        <tr>
+                        {% for cinemahall in cinema_list %}
+                            <th><a href="{% url 'cinemahall' cinemahall.id %}">View</a></th>
+							<th>{{ cinemahall.id }}</th>
+							<th>{{ cinemahall.name }}</th>
+							<th>{{ cinemahall.projector }}</th>
+                            <th>{{ cinemahall.sound_system }}</th>
+                            <th><a href="{% url 'updatecinemahll' cinemahall.id %}">Update</a> </th>
+                            <th><a href="{% url 'deletecinemahall' cinemahall.id %}">Remove</a> </th>
+						</tr>
+                        {% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

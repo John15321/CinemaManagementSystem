@@ -1,0 +1,43 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body"><a class="btn btn-primary  btn-sm btn-block" href="{% url 'creatshow' %}">Create Show</a></div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+                            <th></th>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Cinema Hall</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Update</th>
+                            <th>Remove</th>
+						</tr>
+                        <tr>
+                        {% for show in shows_list %}
+                            <th><a href="{% url 'show' show.id %}">View</a></th>
+							<th>{{ show.id }}</th>
+							<th>{{ show.name }}</th>
+							<th>{{ show.cinema_hall }}</th>
+                            <th>{{ show.start_date }}</th>
+                            <th>{% load get_item %}
+                                {{ end_date_time|get_item:show.id }}</th>
+                            <th><a href="{% url 'updateshow' show.id %}">Update</a> </th>
+                            <th><a href="{% url 'deleteshow' show.id %}">Remove</a> </th>
+						</tr>
+                        {% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

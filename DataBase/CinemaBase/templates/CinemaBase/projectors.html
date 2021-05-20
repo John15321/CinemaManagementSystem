@@ -1,0 +1,37 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body"><a class="btn btn-primary  btn-sm btn-block" href="{% url 'addprojector' %}">Add Projector</a></div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Brand</th>
+                            <th>Resolution</th>
+                            <th>Delete</th>
+						</tr>
+                        <tr>
+                        {% for projector in projector_list %}
+							<th>{{ projector.id }}</th>
+							<th>{{ projector.name }}</th>
+							<th>{{ projector.brand }}</th>
+                            <th>{{ projector.resolution }}</th>
+                            <th><a href="{% url 'deleteprojector' projector.id %}">Remove</a> </th>
+
+						</tr>
+                        {% endfor %}
+
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+{% endblock content %}

@@ -1,0 +1,38 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<h5>Show</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>ID: {{ show.id }}</th>
+                        </tr>
+						<tr>
+							<th>Name: {{ show.name }}</th>
+                        </tr>
+                        <tr>
+							<th>Cinema Hall: {{ show.cinema_hall }}</th>
+                        </tr>
+                        <tr>
+							<th>SPLs: </th>
+                            {% for spl in spls %}
+                                <tr>
+							        <th>{{ spl.name }}</th>
+                                </tr>
+                            {% endfor %}
+
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

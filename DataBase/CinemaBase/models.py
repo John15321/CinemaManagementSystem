@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.timezone import now
 
 class KDM(models.Model):
     name = models.CharField(max_length=200)
@@ -58,8 +58,7 @@ class Show(models.Model):
     name = models.CharField(max_length=200)
     SPLs = models.ManyToManyField(SPL)
     cinema_hall = models.ForeignKey("CinemaHall", blank=True, null=True, on_delete=models.SET_NULL)
-    start_date = models.DateTimeField(auto_now_add=False, auto_now=False, blank=True)
-
+    start_date = models.DateTimeField(auto_now_add=False, auto_now=False, default=now)
     def __str__(self):
         return self.name
 

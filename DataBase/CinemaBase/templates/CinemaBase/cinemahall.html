@@ -1,0 +1,41 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<h5>Show</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>ID: {{ cinema_hall.id }}</th>
+                        </tr>
+						<tr>
+							<th>Name: {{ cinema_hall.name }}</th>
+                        </tr>
+                        <tr>
+							<th>Projector: {{ cinema_hall.projector }}</th>
+                        </tr>
+                         <tr>
+							<th>Sound Systems: {{ cinema_hall.sound_system }}</th>
+                        </tr>
+                        <tr>
+							<th>Show: </th>
+                            {% for show in show_list %}
+                                <tr>
+							        <th>{{ show.name }}</th>
+                                </tr>
+                            {% endfor %}
+
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+{% endblock content %}
