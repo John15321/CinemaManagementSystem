@@ -1,0 +1,38 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body"><a class="btn btn-primary  btn-sm btn-block" href="{% url 'createkdm' %}">Create KDM</a></div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+                            <th>Not vallid before</th>
+                            <th>Not valid after</th>
+                            <th>KDM key</th>
+                            <th>Remove</th>
+						</tr>
+                        <tr>
+                        {% for kdm in kdms_list %}
+							<th>{{ kdm.id }}</th>
+							<th>{{ kdm.name }}</th>
+                            <th>{{ kdm.not_valid_before }}</th>
+							<th>{{ kdm.not_valid_after }}</th>
+                            <th>{{ kdm.KDMKey }}</th>
+                            <th><a href="{% url 'deletekdm' kdm.id %}">Remove</a> </th>
+						</tr>
+                        {% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

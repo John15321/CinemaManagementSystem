@@ -19,5 +19,22 @@ urlpatterns = [
     path('addcinemahall/', views.addcinemahall, name='addcinemahall'),
     path('deletecinemahall/<str:pk>/', views.deletecinemahall, name='deletecinemahall'),
     path('updatecinemahall/<str:pk>/', views.updatecinemahall, name='updatecinemahll'),
+    path('spls/', views.spls, name='spls'),
+    path('spl/<str:pk>/', views.spl, name='spl'),
+    path('createspl/', views.createspl, name='createspl'),
+    path('deletespl/<str:pk>/', views.deletespl, name='deletespl'),
+    path('updatespl/<str:pk>/', views.updatespl, name='updatespl'),
+    path('cpls/', views.cpls, name='cpls'),
+    path('createcpl/', views.createcpl, name='createcpl'),
+    path('deletecpl/<str:pk>/', views.deletecpl, name='deletecpl'),
+    path('updatecpl/<str:pk>/', views.updatecpl, name='updatecpl'),
+    path('kdms/', views.kdms, name='kdms'),
+    path('createkdm/', views.createkdm, name='createkdm'),
+    path('deletekdm/<str:pk>/', views.deletekdm, name='deletekdm'),
+    path('effects/', views.effects, name='effects'),
+    path('createeffect/', views.createeffect, name='createeffect'),
+    path('deleteeffect/<str:pk>/', views.deleteeffect, name='deleteeffect'),
+
+
 ]
 

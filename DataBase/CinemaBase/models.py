@@ -3,8 +3,8 @@ from django.utils.timezone import now
 
 class KDM(models.Model):
     name = models.CharField(max_length=200)
-    not_valid_before = models.DateTimeField(auto_now_add=False, auto_now=False, blank=True)
-    not_valid_after = models.DateTimeField(auto_now_add=False, auto_now=False, blank=True)
+    not_valid_before = models.DateTimeField(auto_now_add=False, auto_now=False, blank=True,default=now)
+    not_valid_after = models.DateTimeField(auto_now_add=False, auto_now=False, blank=True,default=now)
     KDMKey = models.IntegerField(null=False)
 
     def __str__(self):
@@ -61,7 +61,6 @@ class Show(models.Model):
     start_date = models.DateTimeField(auto_now_add=False, auto_now=False, default=now)
     def __str__(self):
         return self.name
-
 
 class CinemaHall(models.Model):
     name = models.CharField(max_length=200)

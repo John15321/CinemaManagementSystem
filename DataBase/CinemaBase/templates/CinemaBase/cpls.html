@@ -1,0 +1,40 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body"><a class="btn btn-primary  btn-sm btn-block" href="{% url 'createcpl' %}">Create CPL</a></div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+                            <th>Duration</th>
+                            <th>Disk size</th>
+                            <th>KDM</th>
+                            <th>Update</th>
+                            <th>Remove</th>
+						</tr>
+                        <tr>
+                        {% for cpl in cpls_list %}
+							<th>{{ cpl.id }}</th>
+							<th>{{ cpl.name }}</th>
+                            <th>{{ cpl.duration }}</th>
+							<th>{{ cpl.disk_size }}</th>
+                            <th>{{ cpl.KDM }}</th>
+                            <th><a href="{% url 'updatecpl' cpl.id %}">Update</a> </th>
+                            <th><a href="{% url 'deletecpl' cpl.id %}">Remove</a> </th>
+						</tr>
+                        {% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

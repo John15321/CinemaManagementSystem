@@ -2,10 +2,10 @@
 {%  extends 'CinemaBase/main.html' %}
 {% load static %}
 {% block content %}
-    <p>Are you sure you want to deletee "{{ item }}</p>
-    <form action="{% url 'deleteshow' item.id %}" method="POST">
+    <p>Are you sure you want to delete " {{ item }} "</p>
+    <form action="{% url delete_action item.id %}" method="POST">
         {% csrf_token %}
-        <a href="{% url 'home' %}">Cancel</a></a>
+        <a href="{% url back_address %}">Cancel</a></a>
     <input  type="submit" name="Confirm">
     </form>
 

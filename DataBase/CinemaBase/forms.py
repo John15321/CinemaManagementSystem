@@ -20,3 +20,23 @@ class ProjectorForm(ModelForm):
     class Meta:
         model = Projector
         fields = '__all__'
+
+class SPLForm(ModelForm):
+    class Meta:
+        model = SPL
+        fields = '__all__'
+
+class CPLForm(ModelForm):
+    class Meta:
+        model = CPL
+        fields = '__all__'
+
+class EffectForm(ModelForm):
+    class Meta:
+        model = Effect
+        fields = '__all__'
+
+class KDMForm(ModelForm):
+    class Meta:
+        model = KDM
+        fields = '__all__'

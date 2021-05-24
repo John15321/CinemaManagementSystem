@@ -1,0 +1,36 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body"><a class="btn btn-primary  btn-sm btn-block" href="{% url 'createeffect' %}">Create Effect</a></div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+                            <th>Type</th>
+                            <th>Duration</th>
+                            <th>Remove</th>
+						</tr>
+                        <tr>
+                        {% for effect in effects_list %}
+							<th>{{ effect.id }}</th>
+							<th>{{ effect.name }}</th>
+                            <th>{{ effect.type }}</th>
+							<th>{{ effect.duration }}</th>
+                            <th><a href="{% url 'deleteeffect' effect.id %}">Remove</a> </th>
+						</tr>
+                        {% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

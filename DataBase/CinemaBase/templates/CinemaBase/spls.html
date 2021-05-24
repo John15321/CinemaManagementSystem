@@ -1,0 +1,39 @@
+
+{%  extends 'CinemaBase/main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body"><a class="btn btn-primary  btn-sm btn-block" href="{% url 'createspl' %}">Create SPL</a></div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+                            <th></th>
+							<th>ID</th>
+							<th>Name</th>
+                            <th>Duration</th>
+                            <th>Update</th>
+                            <th>Remove</th>
+						</tr>
+                        <tr>
+                        {% for spl in spls_list %}
+                            <th><a href="{% url 'spl' spl.id %}">View</a></th>
+							<th>{{ spl.id }}</th>
+							<th>{{ spl.name }}</th>
+                            <th>{% load get_item %}
+                                {{ duration_time|get_item:spl.id }}</th>
+                            <th><a href="{% url 'updatespl' spl.id %}">Update</a> </th>
+                            <th><a href="{% url 'deletespl' spl.id %}">Remove</a> </th>
+						</tr>
+                        {% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

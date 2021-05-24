@@ -38,7 +38,7 @@ def creatShow(request):
             return redirect('/shows')
 
     content = {'form':form}
-    return render(request,'CinemaBase/showform.html',content)
+    return render(request, 'CinemaBase/formpage.html', content)
 
 def updateShow(request,pk):
     show = Show.objects.get(id=pk)
@@ -49,14 +49,16 @@ def updateShow(request,pk):
             form.save()
             return redirect('/shows')
     content = {'form': form}
-    return render(request, 'CinemaBase/showform.html', content)
+    return render(request, 'CinemaBase/formpage.html', content)
 
 def deleteShow(request,pk):
     show = Show.objects.get(id=pk)
+    back_address = 'shows'
+    delete_action = 'deleteshow'
     if request.method == 'POST':
         show.delete()
         return redirect('/shows')
-    content = {'item':show}
+    content = {'item':show, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
 def cinemahalls(request):
@@ -80,7 +82,7 @@ def addcinemahall(request):
             return redirect('/cinemahalls')
 
     content = {'form': form}
-    return render(request, 'CinemaBase/cinemahallform.html', content)
+    return render(request, 'CinemaBase/formpage.html', content)
 
 def updatecinemahall(request,pk):
     cinemahall = CinemaHall.objects.get(id=pk)
@@ -91,15 +93,17 @@ def updatecinemahall(request,pk):
             form.save()
             return redirect('/cinemahalls')
     content = {'form': form}
-    return render(request, 'CinemaBase/cinemahallform.html', content)
+    return render(request, 'CinemaBase/formpage.html', content)
 
 def deletecinemahall(request,pk):
     cinemahall = CinemaHall.objects.get(id=pk)
+    back_address = 'cinemahalls'
+    delete_action = 'deletecinemahall'
     if request.method == 'POST':
         cinemahall.delete()
         return redirect('/cinemahalls')
-    content = {'item': cinemahall}
-    return render(request, 'CinemaBase/deletecinemahall.html', content)
+    content = {'item': cinemahall, 'back_address': back_address , 'delete_action':delete_action}
+    return render(request, 'CinemaBase/delete.html', content)
 
 def projectors(request):
     projector_list = Projector.objects.all()
@@ -116,15 +120,17 @@ def addprojector(request):
             return redirect('/projectors')
 
     content = {'form': form}
-    return render(request, 'CinemaBase/projectorform.html', content)
+    return render(request, 'CinemaBase/formpage.html', content)
 
 def deleteprojector(request,pk):
     projector = Projector.objects.get(id=pk)
+    back_address = 'projectors'
+    delete_action = 'deleteprojector'
     if request.method == 'POST':
         projector.delete()
         return redirect('/projectors')
-    content = {'item': projector}
-    return render(request, 'CinemaBase/deleteprojector.html', content)
+    content = {'item': projector, 'back_address': back_address , 'delete_action':delete_action}
+    return render(request, 'CinemaBase/delete.html', content)
 
 def soundsystems(request):
     soundsystem_list = SoundSystem.objects.all()
@@ -141,13 +147,160 @@ def addsoundsystem(request):
             return redirect('/soundsystems')
 
     content = {'form': form}
-    return render(request, 'CinemaBase/soundsystemsform.html', content)
+    return render(request, 'CinemaBase/formpage.html', content)
 
 def deletesoundsystem(request,pk):
     soundsystem = SoundSystem.objects.get(id=pk)
+    back_address = 'soundsystems'
+    delete_action = 'deletesoundsystem'
     if request.method == 'POST':
         soundsystem.delete()
         return redirect('/soundsystems')
-    content = {'item': soundsystem}
-    return render(request, 'CinemaBase/deletesoundsystem.html', content)
+    content = {'item': soundsystem, 'back_address': back_address , 'delete_action':delete_action}
+    return render(request, 'CinemaBase/delete.html', content)
+
+def spls(request):
+    spls_list = SPL.objects.all()
+    duration_list ={}
+    for spl in spls_list.all():
+        duration=0
+        for cpl in spl.CPLs.all():
+            duration = duration + cpl.duration
+        for effect in spl.Effects.all():
+            duration = duration + effect.duration
+        duration_list[spl.id] = timedelta(seconds=duration)
+    content = {'spls_list': spls_list, 'duration_time': duration_list}
+    return render(request, 'CinemaBase/spls.html',content)
+
+def spl(request, pk):
+    spl = SPL.objects.get(id=pk)
+    cpls = spl.CPLs.all()
+    effects = spl.Effects.all()
+    content = {'spl':spl, 'cpls':cpls, 'effects':effects}
+    return render(request, 'CinemaBase/spl.html', content)
+
+def createspl(request):
+    form = SPLForm()
+    if request.method == 'POST':
+        form = SPLForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/spls')
+
+    content = {'form':form}
+    return render(request, 'CinemaBase/formpage.html', content)
+
+def updatespl(request,pk):
+    spl = SPL.objects.get(id=pk)
+    form = SPLForm(instance=spl)
+    if request.method == 'POST':
+        form = SPLForm(request.POST, instance=spl)
+        if form.is_valid():
+            form.save()
+            return redirect('/spls')
+    content = {'form': form}
+    return render(request, 'CinemaBase/formpage.html', content)
+
+def deletespl(request,pk):
+    spl = SPL.objects.get(id=pk)
+    back_address = 'spls'
+    delete_action = 'deletespl'
+    if request.method == 'POST':
+        spl.delete()
+        return redirect('/spls')
+    content = {'item':spl, 'back_address': back_address , 'delete_action':delete_action}
+    return render(request, 'CinemaBase/delete.html', content)
+
+def cpls(request):
+    cpls_list = CPL.objects.all()
+
+    content = {'cpls_list': cpls_list}
+    return render(request, 'CinemaBase/cpls.html',content)
+
+def createcpl(request):
+    form = CPLForm()
+    if request.method == 'POST':
+        form = CPLForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/cpls')
+
+    content = {'form':form}
+    return render(request, 'CinemaBase/formpage.html', content)
+
+def updatecpl(request,pk):
+    cpl = CPL.objects.get(id=pk)
+    form = CPLForm(instance=cpl)
+    if request.method == 'POST':
+        form = CPLForm(request.POST, instance=cpl)
+        if form.is_valid():
+            form.save()
+            return redirect('/cpls')
+    content = {'form': form}
+    return render(request, 'CinemaBase/formpage.html', content)
+
+def deletecpl(request,pk):
+    cpl = CPL.objects.get(id=pk)
+    back_address = 'cpls'
+    delete_action = 'deletecpl'
+    if request.method == 'POST':
+        cpl.delete()
+        return redirect('/cpls')
+    content = {'item':cpl, 'back_address': back_address , 'delete_action':delete_action}
+    return render(request, 'CinemaBase/delete.html', content)
+
+def kdms(request):
+    kdms_list = KDM.objects.all()
+
+    content = {'kdms_list': kdms_list}
+    return render(request, 'CinemaBase/kdms.html',content)
+
+def createkdm(request):
+    form = KDMForm()
+    if request.method == 'POST':
+        form = KDMForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/kdms')
+
+    content = {'form':form}
+    return render(request, 'CinemaBase/formpage.html', content)
+
+def deletekdm(request,pk):
+    kdm = KDM.objects.get(id=pk)
+    back_address = 'kdms'
+    delete_action = 'deleteKDM'
+    if request.method == 'POST':
+        kdm.delete()
+        return redirect('/kdms')
+    content = {'item':kdm, 'back_address': back_address , 'delete_action':delete_action}
+    return render(request, 'CinemaBase/delete.html', content)
+
+def effects(request):
+    effects_list = Effect.objects.all()
+
+    content = {'effects_list': effects_list}
+    return render(request, 'CinemaBase/effects.html',content)
+
+def createeffect(request):
+    form = EffectForm()
+    if request.method == 'POST':
+        form = EffectForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/effects')
+
+    content = {'form':form}
+    return render(request, 'CinemaBase/formpage.html', content)
+
+def deleteeffect(request,pk):
+    effect = Effect.objects.get(id=pk)
+    back_address = 'effects'
+    delete_action = 'deleteeffect'
+    if request.method == 'POST':
+        effect.delete()
+        return redirect('/effects')
+    content = {'item':effect, 'back_address': back_address , 'delete_action':delete_action}
+    return render(request, 'CinemaBase/delete.html', content)
+
 
