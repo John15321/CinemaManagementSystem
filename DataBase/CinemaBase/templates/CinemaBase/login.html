@@ -1,0 +1,15 @@
+<h5>Login</h5>
+
+<form method="POST" ,action="">
+    {% csrf_token %}
+    <div>
+    <input type="text" name="username" placeholder="Username..." class="form-control">
+    </div>
+    <div>
+    <input type="password" name="password" placeholder="Password..." class="form-control" >
+    </div>
+    <input type="submit" name="Login">
+    <div class="d-flex justify-content-center links">
+        Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
+    </div>
+</form>

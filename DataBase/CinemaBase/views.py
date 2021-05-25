@@ -1,14 +1,52 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils.timezone import timedelta
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from .models import *
 from .forms import *
+from .decorators import *
 
+
+@unauthenticated_user
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+    content={}
+    return render(request, 'CinemaBase/login.html',content)
+
+def logoutUser(request):
+    logout((request))
+    return redirect('login')
+
+def registerPage(request):
+    form = CreateUSerForm()
+    content={"form":form}
+
+    if request.method =='POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Account created!')
+            return redirect('login')
+
+    return render(request, 'CinemaBase/register.html',content)
+
+@login_required(login_url='login')
 def home(request):
     return render(request, 'CinemaBase/dashboard.html')
 
+@login_required(login_url='login')
 def shows(request):
     shows_list = Show.objects.all()
     end_date_list ={}
@@ -23,12 +61,14 @@ def shows(request):
     content = {'shows_list': shows_list, 'end_date_time': end_date_list}
     return render(request, 'CinemaBase/shows.html',content)
 
+@login_required(login_url='login')
 def show(request, pk):
     show = Show.objects.get(id=pk)
     spls = show.SPLs.all()
     content = {'show':show, 'spls':spls}
     return render(request, 'CinemaBase/show.html', content)
 
+@login_required(login_url='login')
 def creatShow(request):
     form = ShowForm()
     if request.method == 'POST':
@@ -40,6 +80,7 @@ def creatShow(request):
     content = {'form':form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
 def updateShow(request,pk):
     show = Show.objects.get(id=pk)
     form = ShowForm(instance=show)
@@ -51,6 +92,7 @@ def updateShow(request,pk):
     content = {'form': form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
 def deleteShow(request,pk):
     show = Show.objects.get(id=pk)
     back_address = 'shows'
@@ -61,18 +103,21 @@ def deleteShow(request,pk):
     content = {'item':show, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
+@login_required(login_url='login')
 def cinemahalls(request):
     cinema_list = CinemaHall.objects.all()
 
     content = {'cinema_list': cinema_list}
     return render(request, 'CinemaBase/cinemahalls.html',content)
 
+@login_required(login_url='login')
 def cinemahall(request,pk):
     cinema_hall = CinemaHall.objects.get(id=pk)
     show_list = cinema_hall.showings.all()
     content = {'cinema_hall': cinema_hall, 'show_list':show_list}
     return render(request, 'CinemaBase/cinemahall.html',content)
 
+@login_required(login_url='login')
 def addcinemahall(request):
     form = CinemaHallForm()
     if request.method == 'POST':
@@ -84,6 +129,7 @@ def addcinemahall(request):
     content = {'form': form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
 def updatecinemahall(request,pk):
     cinemahall = CinemaHall.objects.get(id=pk)
     form = CinemaHallForm(instance=cinemahall)
@@ -95,6 +141,7 @@ def updatecinemahall(request,pk):
     content = {'form': form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
 def deletecinemahall(request,pk):
     cinemahall = CinemaHall.objects.get(id=pk)
     back_address = 'cinemahalls'
@@ -105,12 +152,14 @@ def deletecinemahall(request,pk):
     content = {'item': cinemahall, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
+@login_required(login_url='login')
 def projectors(request):
     projector_list = Projector.objects.all()
 
     content = {'projector_list':projector_list}
     return render(request, 'CinemaBase/projectors.html',content)
 
+@login_required(login_url='login')
 def addprojector(request):
     form = ProjectorForm()
     if request.method == 'POST':
@@ -122,6 +171,7 @@ def addprojector(request):
     content = {'form': form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
 def deleteprojector(request,pk):
     projector = Projector.objects.get(id=pk)
     back_address = 'projectors'
@@ -132,12 +182,14 @@ def deleteprojector(request,pk):
     content = {'item': projector, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
+@login_required(login_url='login')
 def soundsystems(request):
     soundsystem_list = SoundSystem.objects.all()
 
     content = {'soundsystem_list': soundsystem_list}
     return render(request, 'CinemaBase/soundsystems.html',content)
 
+@login_required(login_url='login')
 def addsoundsystem(request):
     form = SoundSystemForm()
     if request.method == 'POST':
@@ -149,6 +201,7 @@ def addsoundsystem(request):
     content = {'form': form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
 def deletesoundsystem(request,pk):
     soundsystem = SoundSystem.objects.get(id=pk)
     back_address = 'soundsystems'
@@ -159,6 +212,7 @@ def deletesoundsystem(request,pk):
     content = {'item': soundsystem, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
+@login_required(login_url='login')
 def spls(request):
     spls_list = SPL.objects.all()
     duration_list ={}
@@ -172,6 +226,7 @@ def spls(request):
     content = {'spls_list': spls_list, 'duration_time': duration_list}
     return render(request, 'CinemaBase/spls.html',content)
 
+@login_required(login_url='login')
 def spl(request, pk):
     spl = SPL.objects.get(id=pk)
     cpls = spl.CPLs.all()
@@ -179,6 +234,8 @@ def spl(request, pk):
     content = {'spl':spl, 'cpls':cpls, 'effects':effects}
     return render(request, 'CinemaBase/spl.html', content)
 
+@login_required(login_url='login')
+@admin_only
 def createspl(request):
     form = SPLForm()
     if request.method == 'POST':
@@ -190,6 +247,8 @@ def createspl(request):
     content = {'form':form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
+@admin_only
 def updatespl(request,pk):
     spl = SPL.objects.get(id=pk)
     form = SPLForm(instance=spl)
@@ -201,6 +260,8 @@ def updatespl(request,pk):
     content = {'form': form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
+@admin_only
 def deletespl(request,pk):
     spl = SPL.objects.get(id=pk)
     back_address = 'spls'
@@ -211,12 +272,15 @@ def deletespl(request,pk):
     content = {'item':spl, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
+@login_required(login_url='login')
 def cpls(request):
     cpls_list = CPL.objects.all()
 
     content = {'cpls_list': cpls_list}
     return render(request, 'CinemaBase/cpls.html',content)
 
+@login_required(login_url='login')
+@admin_only
 def createcpl(request):
     form = CPLForm()
     if request.method == 'POST':
@@ -228,6 +292,8 @@ def createcpl(request):
     content = {'form':form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
+@admin_only
 def updatecpl(request,pk):
     cpl = CPL.objects.get(id=pk)
     form = CPLForm(instance=cpl)
@@ -239,6 +305,8 @@ def updatecpl(request,pk):
     content = {'form': form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
+@admin_only
 def deletecpl(request,pk):
     cpl = CPL.objects.get(id=pk)
     back_address = 'cpls'
@@ -249,12 +317,15 @@ def deletecpl(request,pk):
     content = {'item':cpl, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
+@login_required(login_url='login')
 def kdms(request):
     kdms_list = KDM.objects.all()
 
     content = {'kdms_list': kdms_list}
     return render(request, 'CinemaBase/kdms.html',content)
 
+@login_required(login_url='login')
+@admin_only
 def createkdm(request):
     form = KDMForm()
     if request.method == 'POST':
@@ -266,6 +337,8 @@ def createkdm(request):
     content = {'form':form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
+@admin_only
 def deletekdm(request,pk):
     kdm = KDM.objects.get(id=pk)
     back_address = 'kdms'
@@ -276,12 +349,15 @@ def deletekdm(request,pk):
     content = {'item':kdm, 'back_address': back_address , 'delete_action':delete_action}
     return render(request, 'CinemaBase/delete.html', content)
 
+@login_required(login_url='login')
 def effects(request):
     effects_list = Effect.objects.all()
 
     content = {'effects_list': effects_list}
     return render(request, 'CinemaBase/effects.html',content)
 
+@login_required(login_url='login')
+@admin_only
 def createeffect(request):
     form = EffectForm()
     if request.method == 'POST':
@@ -293,6 +369,8 @@ def createeffect(request):
     content = {'form':form}
     return render(request, 'CinemaBase/formpage.html', content)
 
+@login_required(login_url='login')
+@admin_only
 def deleteeffect(request,pk):
     effect = Effect.objects.get(id=pk)
     back_address = 'effects'
