@@ -2,6 +2,29 @@
 {% extends 'CinemaBase/main.html' %}
 {% block content %}
 
-    <h1>Dashboard here </h1>
+    <div class="col-md-12">
+		<h5>Now Playing</h5>
+		<hr>
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th>Cinema Hall </th>
+					<th>Show Name</th>
+					<th>Time Left</th>
+				</tr>
+                   <tr>
+                       {% for hall in cinema_list %}
+                       <th>{{ hall.name }}</th>
+                       <th>{% load get_item %}
+                                {{ current_show_list|get_item:hall.id }}</th>
+                       <th>{% load get_item %}
+                                {{ time_left_list|get_item:hall.id }}</th>
+
+                   </tr>
+                     {% endfor %}
+
+			</table>
+		</div>
+	</div>
 
 {% endblock %}

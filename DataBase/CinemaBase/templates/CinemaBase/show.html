@@ -19,18 +19,11 @@
 							<th>Name: {{ show.name }}</th>
                         </tr>
                         <tr>
-							<th>Cinema Hall: {{ show.cinema_hall }}</th>
-                        </tr>
-                        <tr>
 							<th>SPLs: </th>
                             {% for spl in spls %}
                                 <tr>
-                                    <th></th>
-							        <th> {{ spl.name }}</th>
-                                    <th></th>
-                                    <th></th>
-                                     <th></th>
-                                    <th></th>
+							        <th>  &emsp; &emsp; &emsp;{{ spl.name }}</th>
+
                                 </tr>
                             {% endfor %}
 

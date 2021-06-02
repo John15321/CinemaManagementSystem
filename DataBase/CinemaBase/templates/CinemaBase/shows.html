@@ -14,7 +14,6 @@
                             <th></th>
 							<th>ID</th>
 							<th>Name</th>
-							<th>Cinema Hall</th>
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Update</th>
@@ -25,7 +24,6 @@
                             <th><a href="{% url 'show' show.id %}">View</a></th>
 							<th>{{ show.id }}</th>
 							<th>{{ show.name }}</th>
-							<th>{{ show.cinema_hall }}</th>
                             <th>{{ show.start_date }}</th>
                             <th>{% load get_item %}
                                 {{ end_date_time|get_item:show.id }}</th>

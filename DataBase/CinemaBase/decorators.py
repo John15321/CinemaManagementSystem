@@ -22,7 +22,7 @@ def allowed_users(allowed_roles=[]):
             if group in allowed_roles:
                 return view_func(request, *args, **kwargs)
             else:
-                return HttpResponse('You are not allowed to view this page')
+                return redirect('permission')
 
         return wrapper_func
 
@@ -38,6 +38,6 @@ def admin_only(view_func):
         if group == 'admins':
             return view_func(request, *args, **kwargs)
         else:
-            return redirect('home')
+            return redirect('permisson')
 
     return wrapper_function

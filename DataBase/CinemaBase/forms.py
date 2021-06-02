@@ -12,7 +12,7 @@ class CreateUSerForm(UserCreationForm):
 class ShowForm(ModelForm):
     class Meta:
         model = Show
-        fields = '__all__'
+        fields = ['name','SPLs','start_date']
 
 class CinemaHallForm(ModelForm):
     class Meta:
