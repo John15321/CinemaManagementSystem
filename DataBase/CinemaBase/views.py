@@ -387,7 +387,7 @@ def createkdm(request):
 def deletekdm(request,pk):
     kdm = KDM.objects.get(id=pk)
     back_address = 'kdms'
-    delete_action = 'deleteKDM'
+    delete_action = 'deletekdm'
     if request.method == 'POST':
         kdm.delete()
         return redirect('/kdms')
